@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.quiz6.data.model.UbikeInfo
-import com.example.quiz6.data.repository.UbikeRopositoryImpl
 import com.example.quiz6.data.util.Resource
 import com.example.quiz6.domain.UbikeRepository
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +25,9 @@ class UbikeViewModel(
     val searchHistoryLiveData: LiveData<List<String>>
         get() = _searchHistoryLiveData
 
+    private val _filteredUbikeInfo = MutableLiveData<Resource<UbikeInfo>>()
+    val filteredUbikeInfo: LiveData<Resource<UbikeInfo>> get() = _filteredUbikeInfo
+
     fun getUbikeInfo() = viewModelScope.launch(Dispatchers.IO) {
         uBikeInfoLiveData.postValue(Resource.Loading())
 
@@ -40,6 +42,14 @@ class UbikeViewModel(
             uBikeInfoLiveData.postValue(Resource.Error(e.message.toString()))
         }
     }
+
+    fun filterUbikeInfo(query: String) {
+        val originalList = uBikeInfoLiveData.value?.data ?: UbikeInfo()
+        val filteredList = originalList.filter { it.sarea.contains(query, true) }
+
+        _filteredUbikeInfo.value = Resource.Success(UbikeInfo().apply { addAll(filteredList) })
+    }
+
 
     fun addToSearchHistory(searchResult: String) {
         val currentList = _searchHistoryLiveData.value ?: emptyList()
