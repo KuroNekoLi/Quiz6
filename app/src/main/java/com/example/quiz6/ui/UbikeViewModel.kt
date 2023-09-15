@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.quiz6.data.model.UbikeInfo
@@ -21,6 +22,9 @@ class UbikeViewModel(
 ): AndroidViewModel(app) {
 
     val uBikeInfoLiveData : MutableLiveData<Resource<UbikeInfo>> = MutableLiveData()
+    private val _searchHistoryLiveData = MutableLiveData<List<String>>(emptyList())
+    val searchHistoryLiveData: LiveData<List<String>>
+        get() = _searchHistoryLiveData
 
     fun getUbikeInfo() = viewModelScope.launch(Dispatchers.IO) {
         uBikeInfoLiveData.postValue(Resource.Loading())
@@ -35,6 +39,15 @@ class UbikeViewModel(
         } catch (e: Exception) {
             uBikeInfoLiveData.postValue(Resource.Error(e.message.toString()))
         }
+    }
+
+    fun addToSearchHistory(searchResult: String) {
+        val currentList = _searchHistoryLiveData.value ?: emptyList()
+        val updatedList = currentList.toMutableList().apply {
+            add(0, searchResult)
+        }.distinct()
+
+        _searchHistoryLiveData.value = updatedList
     }
 
     private fun isNetworkAvailable(context: Context?) : Boolean {

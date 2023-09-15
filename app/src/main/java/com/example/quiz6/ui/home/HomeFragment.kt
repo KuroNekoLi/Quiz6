@@ -7,15 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quiz6.MainActivity
+import com.example.quiz6.data.model.UbikeInfoItem
 import com.example.quiz6.data.util.Resource
 import com.example.quiz6.databinding.FragmentHomeBinding
+import com.example.quiz6.presentation.adapter.UbikeInfoAdapter
 import com.example.quiz6.ui.UbikeViewModel
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private lateinit var viewModel:UbikeViewModel
+    private lateinit var adapter:UbikeInfoAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,7 +37,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         viewUbikeList()
+    }
+
+    private fun initAdapter() {
+        adapter = UbikeInfoAdapter()
+        binding.rvUBike.adapter = adapter
+        binding.rvUBike.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onDestroyView() {
@@ -42,17 +53,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun viewUbikeList() {
-
         viewModel= (activity as MainActivity).viewModel
         viewModel.getUbikeInfo()
         viewModel.uBikeInfoLiveData.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-
 //                    hideProgressBar()
                     response.data?.let {
-                        val data = it.toList().toString()
-                        Log.i("LinLi",  "data:" + data);
+                        val ubikeInfoItemList : List<UbikeInfoItem> = it.toList()
+                        Log.i("LinLi", ubikeInfoItemList.toString());
+                        adapter.submitList(ubikeInfoItemList)
                     }
                 }
 
@@ -63,11 +73,9 @@ class HomeFragment : Fragment() {
                             .show()
                     }
                 }
-
                 is Resource.Loading -> {
 //                    showProgressBar()
                 }
-
             }
         }
     }

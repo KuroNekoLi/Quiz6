@@ -5,6 +5,7 @@ import com.example.quiz6.data.repository.RemoteDataSource
 import com.example.quiz6.data.repository.RemoteDataSourceImpl
 import com.example.quiz6.data.repository.UbikeRopositoryImpl
 import com.example.quiz6.domain.UbikeRepository
+import com.example.quiz6.presentation.adapter.UbikeInfoAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
