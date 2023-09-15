@@ -1,26 +1,20 @@
 package com.example.quiz6
 
 import android.os.Bundle
-import android.view.Menu
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.quiz6.databinding.ActivityMainBinding
+import com.example.quiz6.databinding.NavHeaderMainBinding
 import com.example.quiz6.ui.UbikeViewModel
 import com.example.quiz6.ui.UbikeViewModelFactory
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -45,12 +39,15 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        val headerView = navView.getHeaderView(0)
+        val headerMainBinding = NavHeaderMainBinding.bind(headerView)
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_useGuide, R.id.nav_payway
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -82,8 +79,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     navController.navigate(R.id.nav_home)
                 }
-                R.id.nav_gallery -> {
-                    navController.navigate(R.id.nav_gallery)
+                R.id.nav_useGuide -> {
+                    navController.navigate(R.id.nav_useGuide)
+                }
+                R.id.nav_payway -> {
+                    navController.navigate(R.id.nav_payway)
                 }
             }
 
@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        headerMainBinding.ivClose.setOnClickListener { drawerLayout.closeDrawer(GravityCompat.END) }
     }
 
 

@@ -40,10 +40,25 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
+        style="@style/MyNavigationViewStyle"
         android:layout_width="360dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
+        android:background="@color/light_green"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" >
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="15dp"
+            android:textSize="18sp"
+            android:background="@drawable/rounded_background"
+            android:layout_margin="20dp"
+            android:text="登入" />
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

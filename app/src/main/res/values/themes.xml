@@ -24,4 +24,12 @@
     <style name="Theme.Quiz6.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Quiz6.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyNavigationViewStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="itemTextColor">@color/selectro_menu_item_text</item>
+    </style>
+
+    <style name="Style" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
 </resources>

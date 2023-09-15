@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.quiz6.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_useGuide"
+        android:name="com.example.quiz6.ui.useGuide.UseGuideFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_use_guide" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.quiz6.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_payway"
+        android:name="com.example.quiz6.ui.payWay.PayWayFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_pay_way" />
 </navigation>

@@ -5,16 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_useGuide"
+            android:title="使用說明" />
+        <item
+            android:id="@+id/nav_payway"
+            android:title="收費方式" />
+        <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="站點資訊" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_lastNews"
+            android:title="最新消息" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_activityInfo"
+            android:title="活動資訊" />
     </group>
 </menu>
