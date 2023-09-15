@@ -1,14 +1,19 @@
 package com.example.quiz6.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quiz6.MainActivity
+import com.example.quiz6.R
 import com.example.quiz6.data.model.UbikeInfoItem
 import com.example.quiz6.data.util.Resource
 import com.example.quiz6.databinding.FragmentHomeBinding
@@ -43,12 +48,29 @@ class HomeFragment : Fragment() {
         viewUbikeList()
         binding.ivSearch.setOnClickListener { onSearchClicked() }
         binding.editSearch.setOnClickListener { showHistorySearchResult() }
+        binding.editSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()) {
+                    binding.rvSearch.visibility = View.GONE
+                    binding.editSearch.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.black))
+                } else {
+                    binding.rvSearch.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     private fun showHistorySearchResult() {
         binding.rvSearch.visibility = View.VISIBLE
         viewModel.searchHistoryLiveData.observe(viewLifecycleOwner){
             searchHistoryAdapter.submitList(it)
+            searchHistoryAdapter.notifyDataSetChanged()
         }
     }
 
@@ -63,6 +85,7 @@ class HomeFragment : Fragment() {
             //when item clicked
             searchResult ->
             binding.editSearch.setText(searchResult)
+            binding.editSearch.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_green))
             binding.rvSearch.visibility = View.GONE
 
         }
@@ -107,6 +130,8 @@ class HomeFragment : Fragment() {
 
     private fun onSearchClicked(){
         val query = binding.editSearch.text.toString()
+        if (query.isEmpty())
+            return
         //add result to history
         viewModel.addToSearchHistory(query)
         //filter data and renew adapter
